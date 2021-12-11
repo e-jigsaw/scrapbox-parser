@@ -11,5 +11,11 @@
     "fuga",
     "piyo",
     "tsbuildinfo"
-  ]
+  ],
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.unstable": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
 }
