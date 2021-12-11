@@ -1,22 +1,22 @@
-import { QuoteNodeParser } from "./QuoteNode";
-import { HelpfeelNodeParser } from "./HelpfeelNode";
-import { StrongImageNodeParser } from "./StrongImageNode";
-import { StrongIconNodeParser } from "./StrongIconNode";
-import { StrongNodeParser } from "./StrongNode";
-import { FormulaNodeParser } from "./FormulaNode";
-import { DecorationNodeParser } from "./DecorationNode";
-import { CodeNodeParser } from "./CodeNode";
-import { CommandLineNodeParser } from "./CommandLineNode";
-import { BlankNodeParser } from "./BlankNode";
-import { ImageNodeParser } from "./ImageNode";
-import { ExternalLinkNodeParser } from "./ExternalLinkNode";
-import { GoogleMapNodeParser } from "./GoogleMapNode";
-import { InternalLinkNodeParser } from "./InternalLinkNode";
-import { IconNodeParser } from "./IconNode";
-import { HashTagNodeParser } from "./HashTagNode";
-import { PlainNodeParser } from "./PlainNode";
+import { QuoteNodeParser } from "./QuoteNode.ts";
+import { HelpfeelNodeParser } from "./HelpfeelNode.ts";
+import { StrongImageNodeParser } from "./StrongImageNode.ts";
+import { StrongIconNodeParser } from "./StrongIconNode.ts";
+import { StrongNodeParser } from "./StrongNode.ts";
+import { FormulaNodeParser } from "./FormulaNode.ts";
+import { DecorationNodeParser } from "./DecorationNode.ts";
+import { CodeNodeParser } from "./CodeNode.ts";
+import { CommandLineNodeParser } from "./CommandLineNode.ts";
+import { BlankNodeParser } from "./BlankNode.ts";
+import { ImageNodeParser } from "./ImageNode.ts";
+import { ExternalLinkNodeParser } from "./ExternalLinkNode.ts";
+import { GoogleMapNodeParser } from "./GoogleMapNode.ts";
+import { InternalLinkNodeParser } from "./InternalLinkNode.ts";
+import { IconNodeParser } from "./IconNode.ts";
+import { HashTagNodeParser } from "./HashTagNode.ts";
+import { PlainNodeParser } from "./PlainNode.ts";
 
-import type { Node } from "./type";
+import type { Node } from "./type.ts";
 
 export interface NodeParserOption {
   nested: boolean;
@@ -27,7 +27,7 @@ export type NextNodeParser = () => Node[];
 export type NodeParser = (
   text: string,
   opts: NodeParserOption,
-  next?: NextNodeParser
+  next?: NextNodeParser,
 ) => Node[];
 
 const FalsyEliminator: NodeParser = (text, _, next) => {
@@ -35,14 +35,12 @@ const FalsyEliminator: NodeParser = (text, _, next) => {
   return next?.() ?? [];
 };
 
-const combineNodeParsers =
-  (...parsers: NodeParser[]) =>
+const combineNodeParsers = (...parsers: NodeParser[]) =>
   (text: string, opts: NodeParserOption): Node[] =>
     parsers.reduceRight(
       (acc: NextNodeParser, parser: NodeParser): NextNodeParser =>
-        () =>
-          parser(text, opts, acc),
-      () => PlainNodeParser(text, opts)
+        () => parser(text, opts, acc),
+      () => PlainNodeParser(text, opts),
     )();
 
 export const convertToNodes = combineNodeParsers(
@@ -62,5 +60,5 @@ export const convertToNodes = combineNodeParsers(
   IconNodeParser,
   GoogleMapNodeParser,
   InternalLinkNodeParser,
-  HashTagNodeParser
+  HashTagNodeParser,
 );

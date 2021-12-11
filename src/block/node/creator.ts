@@ -1,21 +1,21 @@
-import { convertToNodes } from ".";
+import { convertToNodes } from "./index.ts";
 
-import type { NodeParser, NodeParserOption } from ".";
-import type { Node } from "./type";
+import type { NodeParser, NodeParserOption } from "./index.ts";
+import type { Node } from "./type.ts";
 
 export type NodeCreator<T extends Node> = (
   target: string,
-  opts: NodeParserOption
+  opts: NodeParserOption,
 ) => T[];
 
 type NodeParserCreator<T extends Node> = (
   nodeCreator: NodeCreator<T>,
-  opts: { parseOnNested: boolean; parseOnQuoted: boolean; patterns: RegExp[] }
+  opts: { parseOnNested: boolean; parseOnQuoted: boolean; patterns: RegExp[] },
 ) => NodeParser;
 
 export const createNodeParser: NodeParserCreator<Node> = (
   nodeCreator,
-  { parseOnNested, parseOnQuoted, patterns }
+  { parseOnNested, parseOnQuoted, patterns },
 ) => {
   return (text, opts, next) => {
     if (!parseOnNested && opts.nested) return next?.() ?? [];

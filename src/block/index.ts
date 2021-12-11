@@ -1,13 +1,13 @@
-import { convertToTitle } from "./Title";
-import { convertToCodeBlock } from "./CodeBlock";
-import { convertToTable } from "./Table";
-import { convertToLine } from "./Line";
+import { convertToTitle } from "./Title.ts";
+import { convertToCodeBlock } from "./CodeBlock.ts";
+import { convertToTable } from "./Table.ts";
+import { convertToLine } from "./Line.ts";
 
-import type { Pack } from "./Pack";
-import type { Title } from "./Title";
-import type { CodeBlock } from "./CodeBlock";
-import type { Table } from "./Table";
-import type { Line } from "./Line";
+import type { Pack } from "./Pack.ts";
+import type { Title } from "./Title.ts";
+import type { CodeBlock } from "./CodeBlock.ts";
+import type { Table } from "./Table.ts";
+import type { Line } from "./Line.ts";
 
 export type Block = Title | CodeBlock | Table | Line;
 
@@ -24,5 +24,7 @@ export const convertToBlock = (pack: Pack): Block => {
 
     case "line":
       return convertToLine(pack);
+    default:
+      return null as never;
   }
 };

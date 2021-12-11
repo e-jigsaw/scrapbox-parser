@@ -1,7 +1,7 @@
-import { createNodeParser } from "./creator";
+import { createNodeParser } from "./creator.ts";
 
-import type { PlainNode } from "./type";
-import type { NodeCreator } from "./creator";
+import type { PlainNode } from "./type.ts";
+import type { NodeCreator } from "./creator.ts";
 
 export const createPlainNode: NodeCreator<PlainNode> = (raw) => [
   {

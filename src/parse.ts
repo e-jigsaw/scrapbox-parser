@@ -1,8 +1,8 @@
-import { convertToBlock } from "./block";
-import { parseToRows } from "./block/Row";
-import { packRows } from "./block/Pack";
+import { convertToBlock } from "./block/index.ts";
+import { parseToRows } from "./block/Row.ts";
+import { packRows } from "./block/Pack.ts";
 
-import type { Block } from "./block";
+import type { Block } from "./block/index.ts";
 
 export interface ParserOption {
   hasTitle?: boolean;

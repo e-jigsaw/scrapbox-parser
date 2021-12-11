@@ -1,8 +1,8 @@
-import { createNodeParser } from "./creator";
-import { createPlainNode } from "./PlainNode";
+import { createNodeParser } from "./creator.ts";
+import { createPlainNode } from "./PlainNode.ts";
 
-import type { ImageNode, PlainNode } from "./type";
-import type { NodeCreator } from "./creator";
+import type { ImageNode, PlainNode } from "./type.ts";
+import type { NodeCreator } from "./creator.ts";
 
 const srcFirstStrongImageRegExp =
   /\[https?:\/\/[^\s\]]+\.(?:png|jpe?g|gif|svg)(?:\?[^\]\s]+)?(?:\s+https?:\/\/[^\s\]]+)?\]/i;
@@ -26,10 +26,12 @@ const createImageNode: NodeCreator<ImageNode | PlainNode> = (raw, opts) => {
   }
 
   const index = raw.search(/\s/);
-  const first =
-    index !== -1 ? raw.substring(1, index) : raw.substring(1, raw.length - 1);
-  const second =
-    index !== -1 ? raw.substring(index, raw.length - 1).trimLeft() : "";
+  const first = index !== -1
+    ? raw.substring(1, index)
+    : raw.substring(1, raw.length - 1);
+  const second = index !== -1
+    ? raw.substring(index, raw.length - 1).trimLeft()
+    : "";
   const [src, link] = isImageUrl(second) ? [second, first] : [first, second];
 
   return [

@@ -1,8 +1,8 @@
-import { createNodeParser } from "./creator";
-import { createPlainNode } from "./PlainNode";
+import { createNodeParser } from "./creator.ts";
+import { createPlainNode } from "./PlainNode.ts";
 
-import type { GoogleMapNode, PlainNode } from "./type";
-import type { NodeCreator } from "./creator";
+import type { GoogleMapNode, PlainNode } from "./type.ts";
+import type { NodeCreator } from "./creator.ts";
 
 const placeFirstGoogleMapRegExp =
   /\[([^\]]*[^\s])\s+([NS]\d+(?:\.\d+)?,[EW]\d+(?:\.\d+)?(?:,Z\d+)?)\]/;
@@ -25,14 +25,13 @@ const parseCoordinate: (format: string) => Coordinate = (format) => {
 
 const createGoogleMapNode: NodeCreator<GoogleMapNode | PlainNode> = (
   raw,
-  opts
+  opts,
 ) => {
   if (opts.context === "table") {
     return createPlainNode(raw, opts);
   }
 
-  const match =
-    raw.match(placeFirstGoogleMapRegExp) ??
+  const match = raw.match(placeFirstGoogleMapRegExp) ??
     raw.match(coordFirstGoogleMapRegExp);
   if (match === null) return [];
 
@@ -42,12 +41,13 @@ const createGoogleMapNode: NodeCreator<GoogleMapNode | PlainNode> = (
     : [match[0], match[2], match[1]];
   const { latitude, longitude, zoom } = parseCoordinate(coord);
 
-  const url =
-    place !== ""
-      ? `https://www.google.com/maps/place/${encodeURIComponent(
-          place
-        )}/@${latitude},${longitude},${zoom}z`
-      : `https://www.google.com/maps/@${latitude},${longitude},${zoom}z`;
+  const url = place !== ""
+    ? `https://www.google.com/maps/place/${
+      encodeURIComponent(
+        place,
+      )
+    }/@${latitude},${longitude},${zoom}z`
+    : `https://www.google.com/maps/@${latitude},${longitude},${zoom}z`;
 
   return [
     {

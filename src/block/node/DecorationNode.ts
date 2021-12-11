@@ -1,9 +1,9 @@
-import { convertToNodes } from ".";
-import { createNodeParser } from "./creator";
-import { createPlainNode } from "./PlainNode";
+import { convertToNodes } from "./index.ts";
+import { createNodeParser } from "./creator.ts";
+import { createPlainNode } from "./PlainNode.ts";
 
-import type { DecorationNode, PlainNode } from "./type";
-import type { NodeCreator } from "./creator";
+import type { DecorationNode, PlainNode } from "./type.ts";
+import type { NodeCreator } from "./creator.ts";
 
 const decorationRegExp = /\[[!"#%&'()*+,\-./{|}<>_~]+ (?:\[[^[\]]+\]|[^\]])+\]/;
 
@@ -46,7 +46,7 @@ export type Decoration = Exclude<DecorationChar, "*"> | AsteriskDecorationChar;
 
 const createDecorationNode: NodeCreator<DecorationNode | PlainNode> = (
   raw,
-  opts
+  opts,
 ) => {
   if (opts.context === "table") {
     return createPlainNode(raw, opts);

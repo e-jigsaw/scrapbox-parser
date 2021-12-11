@@ -1,8 +1,8 @@
-import { createNodeParser } from "./creator";
-import { createPlainNode } from "./PlainNode";
+import { createNodeParser } from "./creator.ts";
+import { createPlainNode } from "./PlainNode.ts";
 
-import type { NodeCreator } from "./creator";
-import type { LinkNode, PlainNode } from "./type";
+import type { NodeCreator } from "./creator.ts";
+import type { LinkNode, PlainNode } from "./type.ts";
 
 const hrefFirstUrlRegExp = /\[https?:\/\/[^\s\]]+\s+[^\]]*[^\s]\]/;
 const contentFirstUrlRegExp = /\[[^[\]]*[^\s]\s+https?:\/\/[^\s\]]+\]/;
@@ -11,16 +11,15 @@ const httpRegExp = /https?:\/\/[^\s]+/;
 
 const createExternalLinkNode: NodeCreator<LinkNode | PlainNode> = (
   raw,
-  opts
+  opts,
 ) => {
   if (opts.context === "table") {
     return createPlainNode(raw, opts);
   }
 
-  const inner =
-    raw.startsWith("[") && raw.endsWith("]")
-      ? raw.substring(1, raw.length - 1)
-      : raw;
+  const inner = raw.startsWith("[") && raw.endsWith("]")
+    ? raw.substring(1, raw.length - 1)
+    : raw;
 
   const isHrefFirst = /^https?:\/\/[^\s\]]/.test(inner);
   const match = (
